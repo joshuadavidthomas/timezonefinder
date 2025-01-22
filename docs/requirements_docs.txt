@@ -1,4 +1,8 @@
-# basic dependencies:
+cffi
+# the minimal dependencies required to build the documentation
 # python3.6+
-numpy>=1.16
+h3
+numpy
+Sphinx
 sphinx_rtd_theme
+urllib3<3

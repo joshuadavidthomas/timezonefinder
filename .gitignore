@@ -1,9 +1,18 @@
+.python-version
+*.env
+scripts/data
+scripts/*.bin
+scripts/*.json
 MANIFEST
 timezonefinder/combined.json
 scrapyard.py
 playground.py
 tmp.py
 tmp/
+test/*.bin
+tmp_shortcut.bin
+
+build/
 
 *.DS_Store
 *.pytest_cache
@@ -12,6 +21,8 @@ tmp/
 # Sphinx
 docs/_build
 
+# C extensions
+*.o
 
 
 

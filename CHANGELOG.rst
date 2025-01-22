@@ -1,12 +1,232 @@
+=========
 Changelog
 =========
 
 
-TODOs:
-document class attributes
-create variables for used dtype for each type of data (polygon address, coordinate...)
-more "intelligent" binary file creation settings: name, dtype etc. combined
+6.5.8 (2025-01-21)
+------------------
 
+* updated the data to `2025a <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2025a>`__
+* internal: updated ``file_converter.py`` for ``h3>=4``
+
+
+6.5.7 (2024-12-02)
+------------------
+
+* improved error handling to catch ``ValueError: not enough values to unpack`` (`Issue #209 <https://github.com/jannikmi/timezonefinder/issues/209>`__)
+
+
+6.5.6 (2024-12-02)
+------------------
+
+* add musllinux Wheels for Linux. Thanks to `Pxli9130 <https://github.com/Pxli9130>`__
+
+
+6.5.5 (2024-11-20)
+------------------
+
+* using ``setuptools`` only as a build dependency. Thanks to `Kristian Sloth Lauszus <https://github.com/Lauszus>`__
+
+
+6.5.4 (2024-10-22)
+------------------
+
+* using the dependency ``h3>4``. Thanks to `Greg Meyer <https://github.com/gmmeyer>`__
+
+
+6.5.3 (2024-09-16)
+------------------
+
+* updated the data to `2024b <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2024b>`__.
+* refactored C lang point in polygon utils
+
+6.5.2 (2024-06-17)
+------------------
+
+* added support for ``numpy>=2.0`` (fixes issue #234)
+
+
+6.5.1 (2024-06-14)
+------------------
+
+* added support for cibuildwheel: publish wheels including the native C extension. GHA CI/CD pipeline creates sdist (no binaries inside) and a bunch of binary wheels with a prebuilt clang-pip extension for each python version. Thanks to @theirix
+
+
+
+6.5.0 (2024-03-14)
+------------------
+
+* updated the data to `2024a <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2024a>`__.
+
+internal:
+
+* use ruff linter in pre-commit hook
+* make dependency specifications less strict
+
+
+6.4.1 (2024-02-08)
+------------------
+
+* added official support for python 3.8 again, by specifying numba as multiple constraint dependency
+
+
+internal:
+
+* added unit tests for polygon boundary binary reading
+
+
+6.4.0 (2024-02-02)
+------------------
+
+* added python 3.12 support (supported by numba since release 0.59.0), Closes #208
+* dropped official support for python 3.8, because the optional dependency numba requires python 3.9. this package might still work with python 3.8, but it is not tested anymore.
+
+
+6.3.0 (2024-02-01)
+------------------
+
+* updated the data to `2023d <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2023d>`__.
+
+internal:
+
+* added docstrings. Thanks to `Tyler Huntley <https://github.com/Ty1776>`__
+* automatically skip GitHub actions publishing when the version already exists. useful for minor improvements without publishing a version. build would always fail otherwise
+* enable tests for python 3.11 with numba
+* enable tests for python 3.12
+* added tests for generating the documentation
+* use poetry dependency group specification (closing #199)
+
+
+6.2.0 (2023-03-26)
+------------------
+
+* updated the data to `2023b <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2023b>`__.
+
+
+6.1.10 (2023-03-22)
+-------------------
+
+* added a `pytz` extra for easily maintaining compatibility
+* improved documentation
+
+6.1.9 (2022-12-06)
+------------------
+
+* updated the data to `2022g <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2022g>`__.
+
+
+6.1.8 (2022-11-25)
+------------------
+
+* pumped ``h3`` dependency to ``>=3.7.6,<4`` to support python 3.11 (FIX #170)
+* added python 3.11 tests (not yet supporting numba)
+
+
+6.1.7 (2022-11-20)
+------------------
+
+* updated the data to `2022f <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2022f>`__.
+* pinning dependencies more strictly
+
+6.1.6 (2022-10-30)
+------------------
+
+* updated the data to `2022d <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2022d>`__.
+
+
+6.1.5 (2022-10-25)
+------------------
+
+* updated the data to `2022b <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2022b>`__.
+* logging build failures with warnings
+
+
+6.1.4 (2022-10-23)
+------------------
+
+* more permissive optional ``Numba`` dependency specification (FIX #162, impossible using latest numpy version)
+* made all dependency specifications more permissive following the same rationale
+
+
+6.1.3 (2022-09-23)
+------------------
+
+* bugfix broken package build in the case of a broken ``cffi`` installation (GitHub issue #155). Skip build process if ``cffi`` fails. For performance reasons using the C extension should remain the default behavior. Hence the ``cffi`` dependency should not be optional.
+
+
+6.1.2 (2022-09-13)
+------------------
+
+* bugfix potentially broken pip install due to a mismatch in ``cffi`` versions (GitHub issue #151)
+
+
+6.1.1 (2022-08-18)
+------------------
+
+internals:
+
+* minimized and cleaned up installation footprint (addresses GitHub Issue #151):
+    * excluded script, changelog etc. files
+    * included C extension into the "timezonefinder" package folder
+* added initialisation speed benchmark
+
+
+6.1.0 (2022-08-15)
+------------------
+
+* included point-in-polygon implementation in C
+* included build script to (optionally) build C point-in-polygon extension automatically during installation
+* added ``cffi`` as a dependency to build and interact with the C extension
+* improved initialisation speed: read timezone polygon id index (h3 mapping) with ``np.fromfile``
+* improved CLI speed: construct TimezoneFinder() instances only on demand
+
+internals:
+
+* updated documentation: ``Numba`` installation is no longer recommended (it is a huge dependency and should be optional)
+* clarified documentation: TimezoneFinder() instances should be reused
+* added separate speed benchmark scripts for point in polygon algorithm implementations and the different timezone finding functions
+* added separate section in the documentation for performance including speed benchmark results
+* added checks if all timezone polygons are actually in use (appear in index) to the file conversion script
+* added and improved utility functions as well as tests
+* improved typing
+
+
+6.0.2 (2022-07-08)
+------------------
+
+* bump numpy dependency version to ``1.22`` (vulnerability fix)
+* officially supported python versions ``>=3.8,<3.11`` (due to numpy and numba constraints)
+* packaging now completely based on pyproject.toml (poetry)
+
+
+6.0.1 (2022-05-20)
+------------------
+
+* explicitly included ``py.typed`` in the package to allow mypy users to run static type checking
+
+
+6.0.0 (2022-05-09)
+------------------
+
+breaking changes:
+
+* new dependency: using `h3 <https://uber.github.io/h3-py/intro.html>`__ for indexing the timezone polygons to check ("shortcuts) instead of the previous own indexing implementation. technical details: storing all 41,162 hex cells at resolution 3 and the corresponding timezone polygons which appear in them in the ``shortcuts.bin`` (~500 KB).
+* removed ``.closest_timezone_at()``: with the current data set with ocean zones in use, any point is included in some zone. it is therefore not meaningful to search for the closest boundary! Also the timezone polygons do NOT follow the shorelines. This makes the results of ``closest_timezone_at()`` somewhat less expressive. Maintaining the non-trivial distance computation algorithms is not really at the core responsibility of this package.
+* officially only supporting ``python>=3.7`` (removed official support for ``python3.6``, since the ``numpy`` dependency did so)
+* removed ``v`` from the github release/version tags
+
+internals:
+
+* updated the data to `2021c <https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2021c>`__. please note that timezone polygons might be overlapping (cf. e.g. `timezone-boundary-builder/issue/105 <https://github.com/evansiroky/timezone-boundary-builder/issues/105>`__) and that hence a query coordinate can actually match multiple time zones. ``timezonefinder`` does currently NOT support such multiplicity and will always only return the first found match.
+* shortcuts: sorting according to size of polygons (amount of coordinates) instead of the count of zone ids. useful as optimisation: smaller polygons will be checked first and can hence be "ruled-out" faster
+* "most common": now meaning the zone with the largest polygons in the shortcut (last in the shortcut sorting). please note that this does not necessarily mean the most area in the shortcut is covered by this zone. the polygon size is just an easier to compute heuristic.
+* officially supporting python versions >=3.7,<3.11 (like ``numba``)
+* using poetry for dependency management
+* using GitHub actions for CI instead of travis
+* some minor typing improvements
+* pre-commit hook improvements
+
+In case you have criticism or feedback please reach out by creating an issue, discussion or PR on GitHub.
 
 
 5.2.0 (2021-02-09)
@@ -281,7 +501,7 @@ improvements of file_converter.py:
 2.0.0 (2017-04-07)
 ------------------
 
-* ATTENTION: major change!: there is a second version of timezonefinder now: `timezonefinderL <https://github.com/MrMinimal64/timezonefinderL>`__. There the data has been simplified
+* ATTENTION: major change!: there is a second version of timezonefinder now: `timezonefinderL <https://github.com/jannikmi/timezonefinderL>`__. There the data has been simplified
     for increasing speed reducing data size. Around 56% of the coordinates of the timezone polygons have been deleted there. Around 60% of the polygons (mostly small islands) have been included in the simplified polygons.
     For any coordinate on landmass the results should stay the same, but accuracy at the shorelines is lost.
     This eradicates the usefulness of closest_timezone_at() and certain_timezone_at() but the main use case for this package (= determining the timezone of a point on landmass) is improved.

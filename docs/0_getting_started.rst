@@ -1,6 +1,5 @@
 
 
-===============
 Getting started
 ===============
 
@@ -8,37 +7,43 @@ Getting started
 Installation
 ------------
 
-Installation with conda:
-see instructions at `conda-forge feedstock <https://github.com/conda-forge/timezonefinder-feedstock>`__
 
-
-
-Installation with pip:
-in your command line:
-
-::
+.. code-block:: console
 
     pip install timezonefinder
 
 
-If the vanilla Python code is too slow for you, the time critical algorithms (in ``helpers_numba.py``) can be automatically JIT compiled by ``numba``.
-This speeds things up by a factor of around 100 (cf. :ref:`speed test results <speed-tests>`).
+in case you are using ``pytz``, also require it via its extra to avoid incompatibilities (e.g. due to updated timezone names):
 
-::
+.. code-block:: console
+
+    pip install timezonefinder[pytz]
+
+
+for improved speed also install the optional dependency ``numba`` via its extra (also check the :ref:`performance chapter <performance>`):
+
+.. code-block:: console
 
     pip install timezonefinder[numba]
 
+
+For installation within a Conda environment see instructions at `conda-forge feedstock <https://github.com/conda-forge/timezonefinder-feedstock>`__
 
 
 Dependencies
 ------------
 
-``python3.6+``, ``numpy``, (``numba``)
+
+``python3.8+``, ``numpy``, ``h3``, ``cffi``
+
+optional: ``numba``
+
+(cf. ``pyproject.toml``)
 
 
 
-Basics
-------
+Basic Usage
+-----------
 
 
 
@@ -46,9 +51,11 @@ Basics
 
     from timezonefinder import TimezoneFinder
 
-    tf = TimezoneFinder()
-    latitude, longitude = 52.5061, 13.358
-    tf.timezone_at(lng=longitude, lat=latitude)  # returns 'Europe/Berlin'
+    tf = TimezoneFinder()  # reuse
+
+    query_points = [(13.358, 52.5061), ...]
+    for lng, lat in query_points:
+        tz = tf.timezone_at(lng=lng, lat=lat)  # 'Europe/Berlin'
 
 
 All available features of this package are explained :ref:`HERE <usage>`.
